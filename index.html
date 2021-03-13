@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimentação do Alunos do IFCE Aracati</title>
+</head>
+<body>
+    <div id="map"></div>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-swoopy"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="dados.js"></script>
+    <script>
+        var map = L.map('map').setView([-4.268354791442122, -38.39035034179688], 10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+        for(cidades of tabela){
+            L.swoopyArrow(cidades[0], cidades[1], {
+                labelFontSize: 12,
+                iconAnchor: [20, 10],
+                iconSize: [80, 16],
+                color: 'blue'
+            }).addTo(map);
+            L.swoopyArrow(cidades[1], cidades[2], {
+                labelFontSize: 12,
+                iconAnchor: [20, 10],
+                iconSize: [20, 16],
+                color: 'red'
+            }).addTo(map);
+        }
+        for(cidade of Object.keys(cidadeParaCoordenadas)){
+            L.marker(cidadeParaCoordenadas[cidade], { opacity: 0.5 })
+                .bindTooltip(cidade, {permanent: true})
+                .addTo(map);
+        }
+    </script>
+</body>
+</html>

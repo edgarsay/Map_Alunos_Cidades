@@ -1,0 +1,9 @@
+#map {
+    height: 623px;
+}
+
+.my-label {
+    position: absolute;
+    width:100px;
+    font-size:20px;
+}
