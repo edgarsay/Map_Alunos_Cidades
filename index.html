@@ -11,42 +11,9 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-swoopy"></script>
+    <!-- <script src="polylineDecorator.js"></script> -->
     <link rel="stylesheet" href="style.css" />
     <script src="dados.js"></script>
-    <script>
-        var map = L.map('map').setView([-4.268354791442122, -38.39035034179688], 10),
-            baseLayers = {
-                'Open Street Map': L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {})
-            },
-            overLayers = {
-                'cidades': L.layerGroup(),
-                'antesToDurante': L.layerGroup(),
-                'durenteToDepois': L.layerGroup(),
-                'antesToDepois': L.layerGroup(),
-            },
-            arrowBaseConfig = {
-                labelFontSize: 12,
-                iconAnchor: [20, 10],
-                iconSize: [80, 16],
-                arrowFilled: true,
-            };
-        baseLayers['Open Street Map'].addTo(map);
-
-        for(cidades of tabela){
-            arrowBaseConfig.color = 'green';
-            overLayers.antesToDurante.addLayer(L.swoopyArrow(cidades[0], cidades[1], arrowBaseConfig));
-            arrowBaseConfig.color = 'yellow';
-            overLayers.durenteToDepois.addLayer(L.swoopyArrow(cidades[1], cidades[2], arrowBaseConfig));
-            arrowBaseConfig.color = 'red';
-            overLayers.antesToDepois.addLayer(L.swoopyArrow(cidades[1], cidades[2], arrowBaseConfig));
-        }
-
-        for(cidade of Object.keys(cidadeParaCoordenadas)){
-            overLayers.cidades.addLayer(L.marker(cidadeParaCoordenadas[cidade], { opacity: 0.3 })
-                .bindTooltip(cidade, {permanent: true}))
-        }
-
-        L.control.layers(baseLayers, overLayers).addTo(map);
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>
