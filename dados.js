@@ -1,6 +1,20 @@
 //CIDADE ANTES,CIDADE DURANTE,CIDADE DEPOIS,
 'use strict';
-var tabela = [
+
+var perc2color = function (perc) {
+    var r, g, b = 0;
+    if (perc < 50) {
+        r = 255;
+        g = Math.round(5.1 * perc);
+    } else {
+        g = 255;
+        r = Math.round(510 - 5.10 * perc);
+    }
+    var h = r * 0x10000 + g * 0x100 + b * 0x1;
+    return '#' + ('000000' + h.toString(16)).slice(-6);
+};
+
+var respostas = [
     ["Aracati", "Aracati", "Aracati"],
     ["Aracati", "Aracati", "Canindé"],
     ["Aracati", "Aracati", "Fortaleza"],
@@ -32,7 +46,7 @@ var tabela = [
     ["Fortaleza", "Aracati", "Fortaleza"],
     ["Icapuí", "Icapuí", "Fortaleza"]
 ];
-var cidadeParaCoordenadas = {
+var coordenadas = {
     "Aracati": [-4.5583, -37.7679],
     "Canindé": [-4.3548, -39.3109],
     "Beberibe": [-4.1810, -38.1298],
@@ -47,12 +61,17 @@ var cidadeParaCoordenadas = {
     "Eusébio": [-3.8890, -38.4547]
 };
 
-tabela = tabela.map(function (aluno) {
-    return aluno.map(function (cidade) {
-        var coordenada = cidadeParaCoordenadas[cidade];
-        if (coordenada) {
-            return coordenada;
-        }
-        throw new Error("Cidade não listada " + cidade);
-    });
-});
+var cor = {
+    "Aracati": '#111144',
+    "Canindé": '#661166',
+    "Beberibe": ' #881111',
+    "Fortaleza": '#aa5511',
+    "Jaguaruana": '#cccc11',
+    "Morada Nova": '#c5d2db',
+    "Surubim": '#2096ba',
+    "Icapuí": '#eabcac',
+    "Limoeiro do Norte": '#c5919d',
+    "Itaiçaba": '#df6e21',
+    "Eusébio": '#f9994b',
+    "Cascavel": '#fbcb5a'
+};
