@@ -43,10 +43,10 @@ respostas.forEach(function (resposta) {
     overLayers[resposta[2]].addLayer(L.polyline(latlon, {color: color}));
     overLayers[resposta[2]].addLayer(L.circle(latlon[0], {
         color: 'black',
-        radius: 1000 * ext,
+        radius: 1000 * ext + 1000,
         fill: true,
         fillOpacity: 1,
-        fillColor: perc2color(ext / resposta.length)
+        fillColor: perc2color((ext / resposta.length) * 100)
     }).bindPopup('<p>' + ext + ' aluno(s)</p>'));
 });
 overLayers.Aracati.addTo(map);
