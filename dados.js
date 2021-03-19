@@ -1,17 +1,8 @@
 //CIDADE ANTES,CIDADE DURANTE,CIDADE DEPOIS,
 'use strict';
 
-var perc2color = function (perc) {
-    var r, g, b = 0;
-    if (perc < 50) {
-        r = 255;
-        g = Math.round(5.1 * perc);
-    } else {
-        g = 255;
-        r = Math.round(510 - 5.10 * perc);
-    }
-    var h = r * 0x10000 + g * 0x100 + b * 0x1;
-    return '#' + ('000000' + h.toString(16)).slice(-6);
+var percentageToColor = function (percentage) {
+    return 'hsl(0, ' + percentage * 100 + '%, 50%)';
 };
 
 var respostas = [
@@ -65,12 +56,12 @@ var cor = {
     "Aracati": '#111144',
     "Canindé": '#661166',
     "Beberibe": ' #881111',
-    "Fortaleza": '#aa5511',
+    "Fortaleza": '#c5919d',
     "Jaguaruana": '#cccc11',
     "Morada Nova": '#c5d2db',
     "Surubim": '#2096ba',
     "Icapuí": '#eabcac',
-    "Limoeiro do Norte": '#c5919d',
+    "Limoeiro do Norte": '#aa5511',
     "Itaiçaba": '#df6e21',
     "Eusébio": '#f9994b',
     "Cascavel": '#fbcb5a'
