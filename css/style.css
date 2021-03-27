@@ -10,4 +10,13 @@
 
 p {
     text-align: center;
+    width: 120px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.cidade {
+    margin: 0px;
+    padding: 0px;
+    border-radius: 3px;
 }

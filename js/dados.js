@@ -5,6 +5,7 @@ var percentageToColor = function (percentage) {
     return 'hsl(0, ' + percentage * 100 + '%, 50%)';
 };
 
+
 var respostas = [
     ["Aracati", "Aracati", "Aracati"],
     ["Aracati", "Aracati", "Canindé"],
@@ -35,7 +36,9 @@ var respostas = [
     ["Aracati", "Aracati", "Fortaleza"],
     ["Morada Nova", "Aracati", "Morada Nova"],
     ["Fortaleza", "Aracati", "Fortaleza"],
-    ["Icapuí", "Icapuí", "Fortaleza"]
+    ["Icapuí", "Icapuí", "Fortaleza"],
+    ["Aracati", "", "Fortaleza"],
+    ["Icapuí", "", "Aracati"]
 ];
 var coordenadas = {
     "Aracati": [-4.5583, -37.7679],
@@ -53,16 +56,35 @@ var coordenadas = {
 };
 
 var cor = {
-    "Aracati": '#111144',
-    "Canindé": '#661166',
-    "Beberibe": ' #881111',
-    "Fortaleza": '#c5919d',
-    "Jaguaruana": '#cccc11',
-    "Morada Nova": '#c5d2db',
-    "Surubim": '#2096ba',
-    "Icapuí": '#eabcac',
-    "Limoeiro do Norte": '#aa5511',
-    "Itaiçaba": '#df6e21',
-    "Eusébio": '#f9994b',
-    "Cascavel": '#fbcb5a'
+    "Aracati": 'red',
+    "Fortaleza": 'pink',
+    "Canindé": 'purple',
+    "Beberibe": 'amber',
+    "Jaguaruana": 'teal',
+    "Morada Nova": 'yellow',
+    "Surubim": 'cyan',
+    "Icapuí": 'green',
+    "Limoeiro do Norte": 'lime',
+    "Itaiçaba": 'grey',
+    "Eusébio": 'brown',
+    "Cascavel": 'blue'
 };
+// Red
+// Pink
+// Purple
+// Deep Purple
+// Indigo
+// Blue
+// Light Blue
+// Cyan
+// Teal
+// Green
+// Light Green
+// Lime
+// Yellow
+// Amber
+// Orange
+// Deep Orange
+// Brown
+// Grey
+// Blue Grey
