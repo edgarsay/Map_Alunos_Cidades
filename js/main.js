@@ -10,7 +10,9 @@ var map = L.map('map').setView([-4.268354791442122, -38.39035034179688], 9),
     },
     overLayers = {
         "Antes": L.layerGroup(),
-        "Depois": L.layerGroup()
+        "Depois": L.layerGroup(),
+        "Antes (mapa de calor)": L.layerGroup(),
+        "Depois (mapa de calor)": L.layerGroup()
     };
 baseLayers['Google Maps'].addTo(map);
 
@@ -25,7 +27,7 @@ var holder = {},
         }
         holder[name] = holderName;
     },
-    get = function (cidade){
+    get = function (cidade) {
         var holderName = holder[cidade];
         if (holderName) {
             return holderName;
@@ -54,16 +56,22 @@ var criadorPopup = function (layer, cidade) {
             text += '<p style="color:' + cor[origem] + ';">' + origem + ' : ' + nVindo + '</p>';
         }
     });
-    console.log(text);
     return text;
 };
 
 // desenhando circulos para representaso os alunos em cada cidade
+var pontos = {
+    'Antes': [],
+    'Depois': []
+};
 Object.keys(coordenadas).forEach(function (cidade) {
     ['Antes', 'Depois'].forEach(function (layer) {
-        var numALunos = get(layer + cidade);
-        L.circle(coordenadas[cidade], {
-            radius: (numALunos * 500) + 250,
+        var coor = coordenadas[cidade],
+            alunos = get(layer + cidade);
+            // lat, lng, intensity
+        pontos[layer].push([coor[0], coor[1], alunos * 100 + 100]);
+        L.circle(coor, {
+            radius: (alunos * 500) + 250,
             color: 'black',
             weight: 1,
             fillColor: cor[cidade],
@@ -72,16 +80,19 @@ Object.keys(coordenadas).forEach(function (cidade) {
             .addTo(overLayers[layer]);
     });
 });
+['Antes', 'Depois'].forEach(function (layer) {
+    L.heatLayer(pontos[layer], {radius: 25}).addTo(overLayers[layer + ' (mapa de calor)']);
+});
 
 //desenhando movimentações
 var migrationData = [];
 respostas.sort(function (resposta1, resposta2) {
-    return get(resposta1[0]+resposta1[2]) < get(resposta2[0]+resposta2[2]);
+    return get(resposta1[0] + resposta1[2]) < get(resposta2[0] + resposta2[2]);
 });
 respostas.forEach(function (resposta) {
     var origem = resposta[0],
         destino = resposta[2],
-        nAlunos =get(origem + destino);
+        nAlunos = get(origem + destino);
     if (origem === destino) {
         return;
     }
@@ -91,7 +102,7 @@ respostas.forEach(function (resposta) {
         color: cor[origem],
         weight: nAlunos / 5 + 1,
         factor: 1,
-        arrowFilled: true 
+        arrowFilled: true
     }).addTo(overLayers.Depois);
 });
 
