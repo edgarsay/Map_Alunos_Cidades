@@ -17,7 +17,7 @@ var numberToColor = function (n) {
         } else if (n > 0) {
             return '#FED976';
         } else {
-            return '#FFEDA0';
+            return '#00800000';
         }
     },
     getJSON = function (url, callback) {
