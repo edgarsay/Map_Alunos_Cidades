@@ -1,4 +1,4 @@
-/*global respostas, L, coordenadas, cor, percentageToColor*/
+/*global respostas, L, coordenadas, cor, numberToColor, getJSON, console*/
 'use strict';
 
 var map = L.map('map').setView([-4.268354791442122, -38.39035034179688], 9),
@@ -12,7 +12,9 @@ var map = L.map('map').setView([-4.268354791442122, -38.39035034179688], 9),
         "Antes": L.layerGroup(),
         "Depois": L.layerGroup(),
         "Antes (mapa de calor)": L.layerGroup(),
-        "Depois (mapa de calor)": L.layerGroup()
+        "Depois (mapa de calor)": L.layerGroup(),
+        "Antes (Choropleth)": L.layerGroup(),
+        "Depois (Choropleth)": L.layerGroup()
     };
 baseLayers['Google Maps'].addTo(map);
 
@@ -44,6 +46,29 @@ respostas.forEach(function (resposta) {
     counter(origem + destino); // total de pessoas que foram de rep[0] p/ rep[2]
 });
 
+// pegar geo data base para o Choropleth map
+getJSON('/json/cidades.json', function (err, res) {
+    ['Antes', 'Depois'].forEach(function (layer) {
+        var style = function (feature) {
+            var cidade = feature.properties.NOME,
+                alunos = get(layer + cidade);
+            return {
+                fillColor: numberToColor(alunos),
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.7
+            };
+        };
+        if (err) {
+            console.error(err);
+        }
+        L.geoJson(res, {style: style})
+            .addTo(overLayers[layer + ' (Choropleth)']);
+    });
+});
+
 var criadorPopup = function (layer, cidade) {
     var numALunos = get(layer + cidade),
         text = layer + ' ' + cidade + ' : ' + numALunos;
@@ -68,8 +93,11 @@ Object.keys(coordenadas).forEach(function (cidade) {
     ['Antes', 'Depois'].forEach(function (layer) {
         var coor = coordenadas[cidade],
             alunos = get(layer + cidade);
-            // lat, lng, intensity
+
+        // guardando ponto para os mapas de calor [lat, lng, intensity]
         pontos[layer].push([coor[0], coor[1], alunos * 100 + 100]);
+
+        // criando mapas de circulos
         L.circle(coor, {
             radius: (alunos * 500) + 250,
             color: 'black',
@@ -80,6 +108,8 @@ Object.keys(coordenadas).forEach(function (cidade) {
             .addTo(overLayers[layer]);
     });
 });
+
+// criando mapas de calor
 ['Antes', 'Depois'].forEach(function (layer) {
     L.heatLayer(pontos[layer], {radius: 25}).addTo(overLayers[layer + ' (mapa de calor)']);
 });
@@ -106,6 +136,6 @@ respostas.forEach(function (resposta) {
     }).addTo(overLayers.Depois);
 });
 
-overLayers.Depois.addTo(map);
+// overLayers.Depois.addTo(map);
 
 L.control.layers(baseLayers, overLayers).addTo(map);

@@ -1,11 +1,41 @@
-//CIDADE ANTES,CIDADE DURANTE,CIDADE DEPOIS,
+/*global  XMLHttpRequest*/
 'use strict';
+//utils:
+var numberToColor = function (n) {
+        if (n > 14) {
+            return '#800026';
+        } else if (n > 14) {
+            return'#BD0026';
+        } else if (n > 13) {
+            return '#E31A1C';
+        } else if (n > 3) {
+            return '#FC4E2A';
+        } else if (n > 2) {
+            return '#FD8D3C';
+        } else if (n > 1) {
+            return '#FEB24C';
+        } else if (n > 0) {
+            return '#FED976';
+        } else {
+            return '#FFEDA0';
+        }
+    },
+    getJSON = function (url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'json';
+        xhr.onload = function () {
+            var status = xhr.status;
+            if (status === 200) {
+                callback(null, xhr.response);
+            } else {
+                callback(status, xhr.response);
+            }
+        };
+        xhr.send();
+    };
 
-var percentageToColor = function (percentage) {
-    return 'hsl(0, ' + percentage * 100 + '%, 50%)';
-};
-
-
+//dados:
 var respostas = [
     ["Aracati", "Aracati", "Aracati"],
     ["Aracati", "Aracati", "Canindé"],
